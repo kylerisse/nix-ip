@@ -200,6 +200,22 @@
     firstThree ++ [(lastOctet - 1)];
 
   /*
+  Given an IP and incrementer x, return the IP + x
+
+  Type: ipIncrement :: str -> str
+
+  Examples:
+    ipIncrement "192.168.70.1" 12
+    => "192.168.70.13"
+  */
+  ipIncrement = ip: incrementer: let
+    splitParts = lib.splitString "." ip;
+    firstThree = lib.init splitParts;
+    lastOctet = lib.toInt (lib.last splitParts);
+  in
+    prettyIp (firstThree ++ [(lastOctet + incrementer)]);
+
+  /*
   Given a CIDR, return an attribute set of:
     the IP Address,
     the bit mask,
@@ -241,6 +257,8 @@ in {
     cidrToNetworkId
     cidrToSubnetMask
     cidrToBroadcastAddress
+    ipIncrement
+    prettyIp
     getNetworkProperties
     ;
 }
